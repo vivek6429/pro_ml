@@ -5,23 +5,29 @@ import sys,getopt
 
 fileloc="/home/v/Projects/pro_ml/Fold5_part2/60"+"/10.mov"
 sec = 120
+ofile=''
 
 def parse(argv):
+    global sec,ofile,fileloc
     try:
-        opts,args = getopt.getopt(argv,"hl:s:",["loc=","sec="])
+        opts,args = getopt.getopt(argv,"hl:s:o:",["loc=","sec=","outputfile="])
     except getopt.GetoptError:
-        print("viewframe.py -l <file location> -s <time in seconds>")
+        print("viewframe.py -l <file location> -s <time in seconds> -o <output file name>")
         sys.exit("exiting")
     for opt,arg in opts:
+        # print(opt," ",arg)
         if opt == '-h':
-            print("viewframe.py -l <file location> -s <time in seconds>")
+            print("viewframe.py -l <file location> -s <time in seconds> -o <output file location(optional)")
             sys.exit()
         elif opt in ("-l","--loc"):
-            fileloc=arg
-            
-            print("file loc =",fileloc,type(arg))
+            fileloc=arg  
         elif opt in ("-s","--time"):
             sec=int(arg)
+        elif opt in ("-o","--outputfile"):            
+            ofile=arg
+
+
+
 
 
 def getFrame(sec,VidCapObj):
@@ -33,6 +39,12 @@ def getFrame(sec,VidCapObj):
 
 
 parse(sys.argv[1:])
+print("\n\n")
+print("o:",ofile)
+print("sec:",sec)
+print("fileloc:",fileloc)
+
+
 vidcap=cv2.VideoCapture(fileloc)
 print("loaded file :",fileloc)
 
@@ -41,9 +53,13 @@ print(success)
 print(image)
 print("PRESS Q to quit")
 
+
 if success == True:
     cv2.imshow("Frame",image)
     cv2.waitKey(0)
+    if ofile != '':
+        cv2.imwrite(ofile,image)
+        print("file written")
     cv2.destroyAllWindows()
 else :
     print("start debugging LOL")
