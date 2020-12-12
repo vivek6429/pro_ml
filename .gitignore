@@ -44,3 +44,7 @@ haar cascade files/haarcascade_lefteye_2splits.xml
 haar cascade files/haarcascade_righteye_2splits.xml
 models/cnnCat2.h5
 aaaaaaaa.jpeg
+<<<<<<< HEAD
+=======
+b.jpeg
+>>>>>>> origin/feature_extraction_test
