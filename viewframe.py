@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import numpy as np
 import cv2
 import sys,getopt
@@ -38,6 +39,7 @@ print("loaded file :",fileloc)
 success,image = getFrame(sec,vidcap)
 print(success)
 print(image)
+print("PRESS Q to quit")
 
 if success == True:
     cv2.imshow("Frame",image)
