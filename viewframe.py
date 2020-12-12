@@ -50,7 +50,7 @@ print("loaded file :",fileloc)
 
 success,image = getFrame(sec,vidcap)
 print(success)
-print(image)
+print(image.shape)
 print("PRESS Q to quit")
 
 
