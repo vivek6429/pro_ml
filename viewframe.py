@@ -46,15 +46,13 @@ print("fileloc:",fileloc)
 
 
 vidcap=cv2.VideoCapture(fileloc)
-print("loaded file :",fileloc)
-
 success,image = getFrame(sec,vidcap)
 print(success)
 print(image.shape)
 print("PRESS Q to quit")
 
 
-if success == True:
+if success == True :
     cv2.imshow("Frame",image)
     cv2.waitKey(0)
     if ofile != '':
@@ -64,4 +62,4 @@ if success == True:
 else :
     print("start debugging LOL")
     print(type(image))
-    print("\n\n",image)
+    # print("\n\n",image)

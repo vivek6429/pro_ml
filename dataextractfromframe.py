@@ -5,10 +5,12 @@ import sys,getopt
 import imageio
 import matplotlib.pyplot as plt
 from mlxtend.image import extract_face_landmarks
-
-fileloc="aaaaaaaa.jpeg"
+from scipy.spatial import distance
+import math
+fileloc="b.jpeg"
 sec=0
 ofile=''
+
 
 def parse(argv):
     global sec,ofile,fileloc
@@ -92,40 +94,80 @@ def circularity(eye): # PUC
 
 
 ###########################################################end 
+# opencv functions 
+
+#A function from stack over flow that keeps aspect ratio when resizing to a square
+# got it from stack over flow
+# havent dived into it
+#https://stackoverflow.com/questions/47697622/cnn-image-resizing-vs-padding-keeping-aspect-ratio-or-not
+# therefore not using this for time being........
+
+def resize2SquareKeepingAspectRation(img, size, interpolation):
+  h, w = img.shape[:2]
+  c = None if len(img.shape) < 3 else img.shape[2]
+  if h == w: return cv2.resize(img, (size, size), interpolation)
+  if h > w: dif = h
+  else:     dif = w
+  x_pos = int((dif - w)/2.)
+  y_pos = int((dif - h)/2.)
+  if c is None:
+    mask = np.zeros((dif, dif), dtype=img.dtype)
+    mask[y_pos:y_pos+h, x_pos:x_pos+w] = img[:h, :w]
+  else:
+    mask = np.zeros((dif, dif, c), dtype=img.dtype)
+    mask[y_pos:y_pos+h, x_pos:x_pos+w, :] = img[:h, :w, :]
+  return cv2.resize(mask, (size, size), interpolation)
+
+#function to help in deciding the image orientations
+# 
+
+def rots(img):
+    rots = 0
+    while True:
+       
+        cv2.imshow("Decide  orientation ",img)
+        k=cv2.waitKey(1) & 0xFF
+        
+        if k==27:
+            cv2.destroyAllWindows()
+            rots = int( input("enter number of 90 degree cw rots :") or "0")
+            break
+
+    return rots
 
 
+
+##############################################################
 image=cv2.imread(fileloc,1)
-print("loaded file :",fileloc)
-# print(image)
 print("PRESS Q to quit")
-
 print(image[0])
 
-cv2.imshow("Frame",image)
-cv2.waitKey(0)
-landmarks = extract_face_landmarks(image)
-
-print(landmarks[0])
-print(type(landmarks[0]))
-x=landmarks[0]
-print(x[0])
-print(x[1])
-
-for points in landmarks:
-    print(points[0],",",points[1])
-    image[points[1],points[0],0]=255
-    image[points[1],points[0],1]=255
-    image[points[1],points[0],2]=255
-    image=cv2.circle(image,(points[0],points[1]),5,(255,255,255),-1)
-    
-
-cv2.imshow("Frame",image)
+# Not gona use this for the ime being
+#https://stackoverflow.com/questions/47697622/cnn-image-resizing-vs-padding-keeping-aspect-ratio-or-not
+# image_keep_aspect=resize2SquareKeepingAspectRation(image,224,cv2.INTER_AREA)
+# cv2.imshow("Frame",image_keep_aspect)
 # cv2.waitKey(0)
 
-K = cv2.waitKey(0) & 0xFF  # use the mask in 64 bit machine if error
-if K == 27:
-    cv2.destroyAllWindows()
+rotations = rots(image)
+while rotations > 0:
+    rotations -=1
+    image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE) 
+
+image_resize=cv2.resize(image,(224,224))
+cv2.imshow("Frame",image_resize)
+cv2.waitKey(0)
 
 
+
+landmarks = extract_face_landmarks(image_resize)
+for points in landmarks:
+    image_resize[points[1],points[0],0]=255
+    image_resize[points[1],points[0],1]=255
+    image_resize[points[1],points[0],2]=255
+    image_resize=cv2.circle(image_resize,(points[0],points[1]),3,(255,255,255),-1)
+    
+
+cv2.imshow("Frame",image_resize)
+cv2.waitKey(0)
 
 cv2.destroyAllWindows()
