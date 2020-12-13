@@ -13,7 +13,7 @@ from scipy.spatial import distance
 import math
 
 # some global vals that we can use for now.........
-fileloc="c.jpeg"
+fileloc="b.jpeg"
 sec=0
 ofile=''
 # the Haar-cascade classifiers
@@ -27,6 +27,7 @@ ofile=''
 # second best answer
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
+
 
 
 # image processing function defs
@@ -67,7 +68,7 @@ if __name__ == "__main__":
             roi_gray = gray[y:y+h, x:x+w]
             roi_color = img[y:y+h, x:x+w]
             eyes = eye_cascade.detectMultiScale(roi_gray)
-            print("number of eyes==",len(eyes))
+            # print("number of eyes==",len(eyes))
             if len(eyes) != 2:
                 print(" we have some isuues here, found ",len(eyes),"(╯°□°）╯︵ ┻━┻")
                 for (ex,ey,ew,eh) in eyes:
@@ -76,11 +77,11 @@ if __name__ == "__main__":
                     cv2.waitKey(0)
                     break ;
             else :
-                print("heloooo")
                 eyes_roi=[]
-                for (ex,ey,ew,eh) in eyes:
+                for count,(ex,ey,ew,eh) in enumerate(eyes):
                     eye=roi_gray[ey:ey+eh,ex:ex+ew]
                     eyes_roi.append(eye)
+                    print(count)
 
 
     for i in range(len(eyes)):
