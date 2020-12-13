@@ -13,7 +13,7 @@ from scipy.spatial import distance
 import math
 
 # some global vals that we can use for now.........
-fileloc="f.jpeg"
+fileloc="c.jpeg"
 sec=0
 ofile=''
 # the Haar-cascade classifiers
@@ -49,6 +49,7 @@ def rots(img):
 ##################################
 
 if __name__ == "__main__":
+
     image=cv2.imread(fileloc,1)
     # image=cv2.resize(image,(224,224))
     # image=resize2SquareKeepingAspectRation(image,224,cv2.INTER_AREA)
@@ -56,17 +57,34 @@ if __name__ == "__main__":
 
     cv2.imshow('image',gray)
     cv2.waitKey(0)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    faces = face_cascade.detectMultiScale(gray, 1.03, 5)
     print(faces)
-    for (x,y,w,h) in faces:
-        print("heloo")
-        img = cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
-        roi_gray = gray[y:y+h, x:x+w]
-        roi_color = img[y:y+h, x:x+w]
-        eyes = eye_cascade.detectMultiScale(roi_gray)
-        for (ex,ey,ew,eh) in eyes:
-            cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+    xx=255
+    yy=0
+    if len(faces)==1:# we are looking for one face only , reduce any possible error
+        for (x,y,w,h) in faces:
+            img = cv2.rectangle(image,(x,y),(x+w,y+h),(255,255,255),2)
+            roi_gray = gray[y:y+h, x:x+w]
+            roi_color = img[y:y+h, x:x+w]
+            eyes = eye_cascade.detectMultiScale(roi_gray)
+            print("number of eyes==",len(eyes))
+            if len(eyes) != 2:
+                print(" we have some isuues here, found ",len(eyes),"(╯°□°）╯︵ ┻━┻")
+                for (ex,ey,ew,eh) in eyes:
+                    cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,xx,yy),2)
+                    cv2.imshow('image',img)
+                    cv2.waitKey(0)
+                    break ;
+            else :
+                print("heloooo")
+                eyes_roi=[]
+                for (ex,ey,ew,eh) in eyes:
+                    eye=roi_gray[ey:ey+eh,ex:ex+ew]
+                    eyes_roi.append(eye)
 
+
+    for i in range(len(eyes)):
+        cv2.imshow(("eye "+str(i+1)),eyes_roi[i])
     cv2.imshow('image',img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
