@@ -48,3 +48,9 @@ aaaaaaaa.jpeg
 =======
 b.jpeg
 >>>>>>> origin/feature_extraction_test
+c.jpeg
+.gitignore
+d.jpeg
+e.jpeg
+f.jpeg
+__pycache__/image_data_process.cpython-38.pyc
