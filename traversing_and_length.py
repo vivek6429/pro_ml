@@ -49,3 +49,6 @@ def traversal():
     return (fname,label)
 
 
+if __name__ == "__main__":
+
+
