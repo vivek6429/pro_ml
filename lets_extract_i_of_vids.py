@@ -36,8 +36,9 @@ if __name__ == "__main__":
     print("ENTERING INFINITE TSUKIYOMI")
     
     while success :
-        print("working")
-        image = cv2.rotate(image, cv2.cv2.ROTATE_90_CLOCKWISE) 
+  
+        if(image.shape == (1080,1920,3)):
+            image = cv2.rotate(image, cv2.cv2.ROTATE_90_CLOCKWISE) 
         # try:
         gray=cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.03, 5)
@@ -58,13 +59,15 @@ if __name__ == "__main__":
                             cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,255),2)
                         cv2.putText(roi_color,str(image.shape), org, font,fontScale, color, thickness, cv2.LINE_AA)
                         cv2.imwrite(fold+"eyes/mult/"+str(sec)+"-"+"error_mult.jpeg",roi_color)
-                        print("wrote a file with error")
+                        print("wrote a file with MULTIPLE faces")
                         sec += frameRate # moving on to next frame 
+                        success,image = getFrame(sec,vidcap)
                     except :
                         print("NO eye HERE")
                         cv2.imwrite(fold+"eyes/no/"+str(sec)+"-"+"foundnone.jpeg",eye)
-                        print("wrote a file no eye")
+                        print("wrote a file NOEYE")
                         sec += frameRate # moving on to next frame
+                        success,image = getFrame(sec,vidcap)
 
 
                 else : # only 2 eyes dtected TODO we gonna find left and right
@@ -81,7 +84,7 @@ if __name__ == "__main__":
             
             image = cv2.putText(image,str(image.shape), org, font,fontScale, color, thickness, cv2.LINE_AA)
             cv2.imwrite(fold+"eyes/err/"+str(sec)+"-"+"FACEerror.jpeg",image)
-            print("wrote a file with face error")
+            print("wrote a file with FACEERROR")
 
             sec = sec + frameRate # moving on incase of multiple or none face detection
             success,image = getFrame(sec,vidcap)
