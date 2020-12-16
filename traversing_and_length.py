@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
     
-def vidlength():
+def vidlength(floc):
 # Converts into more readable format
     def convert(seconds):
         hours = seconds // 3600
@@ -17,7 +17,7 @@ def vidlength():
 
     # Create an object by passing the location as a string
     
-    video = moviepy.editor.VideoFileClip("D:\path\to\video.mp4")
+    video = moviepy.editor.VideoFileClip(floc)
 
     # Contains the duration of the video in terms of seconds
     video_duration = int(video.duration)
@@ -26,8 +26,8 @@ def vidlength():
     return hours,mins,secs
 
 
-def traversal():
-    path = "D:\series\see"
+def traversal(path):
+   
     
     #finding the path of videos
     fpath = []
@@ -47,8 +47,5 @@ def traversal():
         substring = split_string[0]
         label.append(substring)
     return (fname,label)
-
-
-if __name__ == "__main__":
 
 
