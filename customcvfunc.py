@@ -10,6 +10,9 @@ from scipy.spatial import distance
 # gets required no of image rotation
 # lets use this once for a data set
 
+left_eye = np.array([36, 37, 38, 39, 40, 41])
+right_eye = np.array([42, 43, 44, 45, 46, 47])
+
 def rots(img):
     rots = 0
     while True:
@@ -106,6 +109,66 @@ def circularity(eye): # PUC
     print("puc :",puc)
     
     return (puc)
+
+
+# this function returns co-ordinates for drawing boxes for eyes
+# inputs landmarks and % additional scaling
+# returns 4 tuples (x,y) co-ordinates
+# l-eye  : top left and bottom right
+# r-eye  : top left and bottom right
+def boxpointsfinder(landmarks,scalefactor=0.2):
+    # we can later clean this ugly thing later
+    # feel free to ping me for now 
+    # remember this can also be a complete blunder
+
+    def heightadjust(pts1,pts2):
+        d=(distance.euclidean(pts1[0],pts1[1])+distance.euclidean(pts2[0],pts2[1])) /2.0
+        d += scalefactor * d
+        return d
+    status = False
+    try :
+        h_l=heightadjust((landmarks[37],landmarks[41]),(landmarks[38],landmarks[40]))
+        w_l=scalefactor * distance.euclidean(landmarks[36],landmarks[39]) # why ? cause we already have points on left and right center,
+        #  only need to find the distance to add to what we have 
+        h_l /=2.0 # why ? distance to move from where we are standing
+        w_l /= 2.0
+        # h_l = h_l //2
+        # w_l =w_l // 2
+
+        # remember remember the fifth of november, the gun powder treason and plot ....
+
+        # remember
+        # in opencv  
+        # +x ---> direction
+        # 
+        # |
+        # | +y direction
+        # V
+
+        l_topl=(int(landmarks[36][0]-w_l),int(landmarks[36][1]-h_l))   # u moved w_l distance left and h_l distance up from 36 (x,y)
+        l_botr=(int(landmarks[39][0]+w_l),int(landmarks[39][1]+h_l))   # u moved w_l distance right and h_l distance down from 39 (x,y)
+
+        # right eye 
+        h_r=heightadjust((landmarks[43],landmarks[47]),(landmarks[44],landmarks[46]))
+        w_r=scalefactor * distance.euclidean(landmarks[42],landmarks[45]) 
+        h_r /=2.0
+        w_r /=2.0
+        r_topl=(int(landmarks[42][0]-w_l),int(landmarks[42][1]-h_l)) 
+        r_botr=(int(landmarks[45][0]+w_l),int(landmarks[45][1]+h_l))
+        succes =True
+        
+    except :
+        succes =False
+        print("just keeping it here")
+
+    print("yolo")
+    return succes,l_topl,l_botr,r_topl,r_botr
+
+
+
+
+
+
 
 
 
