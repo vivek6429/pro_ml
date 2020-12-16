@@ -56,11 +56,11 @@ def resize2SquareKeepingAspectRation(img, size, interpolation):
 # TODO REPAIR THIS ADD AN OPTIONAL START PARAMETER WITH DEFAULT 3 MIN
 # IF REQUIRED ADD MIN ALSO 
 # NOTE GET BACK TO THIS LATER
-def getFrame(sec,VidCapObj):
-    start = 180000 # the 3 minute mark
-    VidCapObj.set(cv2.CAP_PROP_POS_MSEC, start + sec*1000) # gets one frame ,frame at  3 minte mark+ sec
+def getFrame(sec,VidCapObj,seek=180):
+    # the 3 minute mark
+    VidCapObj.set(cv2.CAP_PROP_POS_MSEC, seek * 1000 + sec*1000) # gets one frame ,frame at  3 minte mark+ sec
     hasFrames,image = VidCapObj.read()
-    print("getFrame.log: got a frame at",start + sec*1000,"sec mark , status :",hasFrames)
+    print("getFrame.log: got a frame at",seek * 1000+ sec*1000,"sec mark , status :",hasFrames)
     return hasFrames, image
 
 

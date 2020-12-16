@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
 
     vidcap=cv2.VideoCapture(fileloc)
-    success,image = getFrame(sec,vidcap)
+    success,image = getFrame(sec,vidcap,seek=0)
     print(success)
     print(image.shape)
     print("PRESS Q to quit")
