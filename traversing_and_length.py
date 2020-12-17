@@ -36,16 +36,19 @@ def traversal(path):
 		    fpath.append(os.path.join(root, f))
     
     #finding the file name from the path
-    fname=[]
-    for i in fpath:
-        fname.append(Path(i).stem)
+    # fname=[]
+    # for i in fpath:
+    #     fname.append(Path(i).stem)
     
     #finding the label from file name by removing underscore
-    label=[]
-    for i in fname:
-        split_string =i.split("_", 1)
+    loc_n_labels=[]
+    for i in fpath:
+        fname=Path(i).stem
+        split_string =fname.split("_", 1)
         substring = split_string[0]
-        label.append(substring)
-    return (fname,label)
+        loc_n_labels.append((i,substring))
+        # now we got full path and label
+    return loc_n_labels
+
 
 
