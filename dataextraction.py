@@ -86,6 +86,11 @@ if __name__ == "__main__":
 
         for sec in range(s): 
             success,image = getFrame(sec,vidcap,seek=120)# seeked first  2 minutes
+
+            if rot == "90":
+                image = cv2.rotate(image, cv2.cv2.ROTATE_90_CLOCKWISE) 
+            if rot == "270":
+                image = cv2.rotate(image, cv2.cv2.ROTATE_90_COUNTERCLOCKWISE)
             
             # if success:
             # refer haar_landmarkon camera.py
@@ -137,8 +142,8 @@ if __name__ == "__main__":
                     continue
 
 
-                cv2.imshow(str(loc),cv2.resize(image,(244,244)))
-                cv2.imshow("FACE HARCASCADE",roi_color)
+                # cv2.imshow(str(loc),cv2.resize(image,(244,244)))
+                # cv2.imshow("FACE HARCASCADE",roi_color)
                 cv2.imshow("MLXTEND.landmarks",copy)
 
                 k = cv2.waitKey(30) & 0xff
@@ -153,10 +158,3 @@ if __name__ == "__main__":
 
     cv2.destroyAllWindows()
     pass
-
-
-
-
-        
-
-   
