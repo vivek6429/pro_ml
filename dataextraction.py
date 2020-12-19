@@ -157,4 +157,5 @@ if __name__ == "__main__":
         vidcap.release()
 
     cv2.destroyAllWindows()
+    print("all done")
     pass
