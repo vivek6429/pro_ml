@@ -203,7 +203,6 @@ def writedata(l_eye,r_eye,loc,label,append):
     fname="extracted_data/"+label+"/"+str(os.path.basename(os.path.dirname(loc)))+"_"+str(append)+".jpeg"
 
     try:
-        print(fname)
         cv2.imwrite(fname,img)
         print("wrote",fname)
     except:
