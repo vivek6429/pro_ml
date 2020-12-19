@@ -33,51 +33,6 @@ def parse(argv):
 
 
 
-###############################################f
-# functions
-# for calculating those required features
-def eye_aspect_ratio(eye,show=True):
-    A = distance.euclidean(eye[1],eye[5])
-    B = distance.euclidean(eye[2], eye[4])
-    C = distance.euclidean(eye[0], eye[3])
-    ear = (A+B)/(2.0 * C)
-    if show == True :
-        print("EAR :",ear)
-    return ear # WE GOT THE EAR VALUE NOW
-
-def mouth_aspect_ratio(mouth,show=True):
-    A = distance.euclidean(mouth[14], mouth[18])
-    C = distance.euclidean(mouth[12], mouth[16])
-    if show == True:
-        print("mar :",(A/C))
-    return A/C  # we got mar value now
-
-def mouth_over_eye(eye,show=True):
-    ear = eye_aspect_ratio(eye,False)
-    mar = mouth_aspect_ratio(eye,False)
-    mouth_eye = mar/ear
-    if show == True:
-        print("mouth_eye :",mouth_eye)
-    return mouth_eye
-
-def circularity(eye): # PUC 
-    # puc = (4 pi area)/(perimeter sq)
-    
-    A = distance.euclidean(eye[1], eye[4])
-    radius  = A/2.0
-    Area = math.pi * (radius ** 2)
-    p = 0 # perimeter
-    p += distance.euclidean(eye[0], eye[1])
-    p += distance.euclidean(eye[1], eye[2])
-    p += distance.euclidean(eye[2], eye[3])
-    p += distance.euclidean(eye[3], eye[4])
-    p += distance.euclidean(eye[4], eye[5])
-    p += distance.euclidean(eye[5], eye[0])
-    puc = (4 * math.pi * Area) /(p**2)
-    print("puc :",puc)
-    
-    return (puc)
-
 
 
 ###########################################################end 

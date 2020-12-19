@@ -7,8 +7,8 @@
 import numpy as np
 import cv2
 from scipy.spatial import distance
-# gets required no of image rotation
-# lets use this once for a data set
+import subprocess
+
 
 left_eye = np.array([36, 37, 38, 39, 40, 41])
 right_eye = np.array([42, 43, 44, 45, 46, 47])
@@ -59,9 +59,11 @@ def resize2SquareKeepingAspectRation(img, size, interpolation):
 # TODO REPAIR THIS ADD AN OPTIONAL START PARAMETER WITH DEFAULT 3 MIN
 # IF REQUIRED ADD MIN ALSO 
 # NOTE GET BACK TO THIS LATER
-def getFrame(sec,VidCapObj,seek=180):
+def getFrame(sec,VidCapObj,seek=0):
     # the 3 minute mark
+    print("ok")
     VidCapObj.set(cv2.CAP_PROP_POS_MSEC, seek * 1000 + sec*1000) # gets one frame ,frame at  3 minte mark+ sec
+    print("here")
     hasFrames,image = VidCapObj.read()
     print("getFrame.log: got a frame at",seek * 1000+ sec*1000,"sec mark , status :",hasFrames)
     return hasFrames, image
@@ -165,15 +167,39 @@ def boxpointsfinder(landmarks,scalefactor=0.2):
     return succes,l_topl,l_botr,r_topl,r_botr
 
 
+def getmeta(filename,exe="exiftool",all=False):
+    # we might want to adjust it as per the os
+    # can do a general one later
+    process = subprocess.Popen([exe,filename],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+    metadata={}
+    
+    try :
+        for output in process.stdout:
+            # print(output.strip())
+            # info={}
+            line = output.strip().split(":")
+            metadata[line[0].strip()]=line[1].strip()
+           
+    except :
+        print("NO METADATA")
 
+    # just in case 
+    try :    
+        res = metadata['Rotation']
+    except :
+        res = 0
 
-
-
+    if all == True:
+        return metadata
+    else :
+        print("Rotation from meta:",res)
+        return res
 
 
 
 
 if __name__ == "__main__":
 
+    getmeta("/home/v/Projects/pro_ml/data/Fold5_part1/50/0.MOV")
 
     pass
