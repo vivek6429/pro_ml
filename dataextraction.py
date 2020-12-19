@@ -127,7 +127,7 @@ if __name__ == "__main__":
                     # cv2.imshow("REYE",i_right)
                     # cv2.imshow("eyes",cv2.hconcat([cv2.resize(i_left,(32,32)),cv2.resize(i_right,(32,32))]))
                     writedata(i_left,i_right,loc,label,sec+120)
-                    sys.exit(0)
+                    # sys.exit(0)
                 except TypeError:
                     print("found a none type")
                     cv2.imshow("DID NOT DETECT FACE",cv2.resize(image,(244,244)))
