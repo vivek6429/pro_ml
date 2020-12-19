@@ -84,13 +84,14 @@ if __name__ == "__main__":
                 print("i am here")
                 print(l_topl)
                 # print(lef)
+
+                bkp=np.copy(copy)
                 cv2.rectangle(copy, l_topl, l_botr, (0, 255, 0, 255), 2)
                 cv2.rectangle(copy, r_topl, r_botr, (0, 255, 0, 255), 2)
-
-                i_left = copy[l_topl[1]:l_botr[1],l_topl[0]:l_botr[0]]
-                
-                i_right = copy[r_topl[1]:r_botr[1],r_topl[0]:r_botr[0]]
+                i_left = bkp[l_topl[1]:l_botr[1],l_topl[0]:l_botr[0]]                
+                i_right = bkp[r_topl[1]:r_botr[1],r_topl[0]:r_botr[0]]
                 cv2.imshow("LEYE",i_left)
+                cv2.imshow("leyesize",cv2.resize(i_left,(32,32)))
                 cv2.imshow("REYE",i_right)
             except TypeError:
                 print("found a none type")

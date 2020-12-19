@@ -7,8 +7,8 @@
 import numpy as np
 import cv2
 from scipy.spatial import distance
-# gets required no of image rotation
-# lets use this once for a data set
+import subprocess
+import os
 
 left_eye = np.array([36, 37, 38, 39, 40, 41])
 right_eye = np.array([42, 43, 44, 45, 46, 47])
@@ -59,9 +59,11 @@ def resize2SquareKeepingAspectRation(img, size, interpolation):
 # TODO REPAIR THIS ADD AN OPTIONAL START PARAMETER WITH DEFAULT 3 MIN
 # IF REQUIRED ADD MIN ALSO 
 # NOTE GET BACK TO THIS LATER
-def getFrame(sec,VidCapObj,seek=180):
+def getFrame(sec,VidCapObj,seek=0):
     # the 3 minute mark
+    print("ok")
     VidCapObj.set(cv2.CAP_PROP_POS_MSEC, seek * 1000 + sec*1000) # gets one frame ,frame at  3 minte mark+ sec
+    print("here")
     hasFrames,image = VidCapObj.read()
     print("getFrame.log: got a frame at",seek * 1000+ sec*1000,"sec mark , status :",hasFrames)
     return hasFrames, image
@@ -161,19 +163,64 @@ def boxpointsfinder(landmarks,scalefactor=0.2):
         succes =False
         print("just keeping it here")
 
-    print("yolo")
+
     return succes,l_topl,l_botr,r_topl,r_botr
 
 
+def getmeta(filename,exe="exiftool",all=False):
+    # we might want to adjust it as per the os
+    # can do a general one later
+    process = subprocess.Popen([exe,filename],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+    metadata={}
+    
+    try :
+        for output in process.stdout:
+            # print(output.strip())
+            # info={}
+            line = output.strip().split(":")
+            metadata[line[0].strip()]=line[1].strip()
+           
+    except :
+        print("NO METADATA")
 
 
+    # just in case 
+    try :    
+        res = metadata['Rotation']
+    except :
+        res = 0
 
+    if all == True:
+        return metadata
+    else :
+        print("Rotation from meta:",res)
+        return res
 
+# needs work on setting path
+def writedata(l_eye,r_eye,loc,label,append):
+    img=cv2.hconcat([cv2.resize(l_eye,(32,32)),cv2.resize(r_eye,(32,32))])
+    # writing to , extracted_data --> the label --> personid_sec.jpeg
+    fname="extracted_data/"+label+"/"+str(os.path.basename(os.path.dirname(loc)))+"_"+str(append)+".jpeg"
+
+    try:
+        print(fname)
+        cv2.imwrite(fname,img)
+        print("wrote",fname)
+    except:
+        print("write FAILED")
+        return None
+
+def imagesplitter(img,x=0,y=0,h=32,w=32):
+    img=cv2.resize(img,(64,32))
+    crop_imgl = img[y:y+h, x:x+w] # 0 to 32 rows , 0 to 32 cols
+    crop_imgr = img[y:y+h, x+w:x+w+w] # 0 to 32 rows , 32 to 64 cols
+    return crop_imgl,crop_imgr
 
 
 
 
 if __name__ == "__main__":
 
+    
 
     pass
