@@ -8,7 +8,7 @@ import numpy as np
 import cv2
 from scipy.spatial import distance
 import subprocess
-
+import os
 
 left_eye = np.array([36, 37, 38, 39, 40, 41])
 right_eye = np.array([42, 43, 44, 45, 46, 47])
@@ -163,7 +163,7 @@ def boxpointsfinder(landmarks,scalefactor=0.2):
         succes =False
         print("just keeping it here")
 
-    print("yolo")
+
     return succes,l_topl,l_botr,r_topl,r_botr
 
 
@@ -183,6 +183,7 @@ def getmeta(filename,exe="exiftool",all=False):
     except :
         print("NO METADATA")
 
+
     # just in case 
     try :    
         res = metadata['Rotation']
@@ -195,11 +196,31 @@ def getmeta(filename,exe="exiftool",all=False):
         print("Rotation from meta:",res)
         return res
 
+# needs work on setting path
+def writedata(l_eye,r_eye,loc,label,append):
+    img=cv2.hconcat([cv2.resize(l_eye,(32,32)),cv2.resize(r_eye,(32,32))])
+    # writing to , extracted_data --> the label --> personid_sec.jpeg
+    fname="extracted_data/"+label+"/"+str(os.path.basename(os.path.dirname(loc)))+"_"+str(append)+".jpeg"
+
+    try:
+        print(fname)
+        cv2.imwrite(fname,img)
+        print("wrote",fname)
+    except:
+        print("write FAILED")
+        return None
+
+def imagesplitter(img,x=0,y=0,h=32,w=32):
+    img=cv2.resize(img,(64,32))
+    crop_imgl = img[y:y+h, x:x+w] # 0 to 32 rows , 0 to 32 cols
+    crop_imgr = img[y:y+h, x+w:x+w+w] # 0 to 32 rows , 32 to 64 cols
+    return crop_imgl,crop_imgr
+
 
 
 
 if __name__ == "__main__":
 
-    getmeta("/home/v/Projects/pro_ml/data/Fold5_part1/50/0.MOV")
+    
 
     pass
