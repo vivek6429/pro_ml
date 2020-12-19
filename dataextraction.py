@@ -144,7 +144,7 @@ if __name__ == "__main__":
 
                 # cv2.imshow(str(loc),cv2.resize(image,(244,244)))
                 # cv2.imshow("FACE HARCASCADE",roi_color)
-                cv2.imshow("MLXTEND.landmarks",copy)
+                cv2.imshow("current frame",copy)
 
                 k = cv2.waitKey(30) & 0xff
                 if k == 27:
@@ -157,4 +157,5 @@ if __name__ == "__main__":
         vidcap.release()
 
     cv2.destroyAllWindows()
+    print("all done")
     pass
