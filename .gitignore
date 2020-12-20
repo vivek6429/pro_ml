@@ -55,6 +55,8 @@ e.jpeg
 f.jpeg
 __pycache__/image_data_process.cpython-38.pyc
 __pycache__/viewframe.cpython-38.pyc
+data/*
+extracted_data/*
 Fold5_part1/52/eyes/err/26-FACEerror.jpeg
 Fold5_part1/52/eyes/err/27-FACEerror.jpeg
 Fold5_part1/52/eyes/err/28-FACEerror.jpeg

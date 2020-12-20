@@ -198,11 +198,11 @@ def getmeta(filename,exe="exiftool",all=False):
 
 # needs work on setting path
 def writedata(l_eye,r_eye,loc,label,append):
-    img=cv2.hconcat([cv2.resize(l_eye,(32,32)),cv2.resize(r_eye,(32,32))])
-    # writing to , extracted_data --> the label --> personid_sec.jpeg
-    fname="extracted_data/"+label+"/"+str(os.path.basename(os.path.dirname(loc)))+"_"+str(append)+".jpeg"
-
+    
     try:
+        img=cv2.hconcat([cv2.resize(l_eye,(32,32)),cv2.resize(r_eye,(32,32))])
+        # writing to , extracted_data --> the label --> personid_sec.jpeg
+        fname="extracted_data/"+label+"/"+str(os.path.basename(os.path.dirname(loc)))+"/"+str(os.path.basename(os.path.dirname(loc)))+"_"+str(append)+".jpeg"
         cv2.imwrite(fname,img)
         print("wrote",fname)
     except:
