@@ -49,7 +49,7 @@ def parse(argv):
 if __name__ == "__main__":
    
     # setting default vals, easy for testing
-    vidfolder="data/"
+    vidfolder="data/Fold5_part1"
     frameRate = 1
     out_folder = "extracted_data/"
     # TODO clean this mess later
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         os.makedirs(out_folder+"5")
     if not (os.path.exists(out_folder+"10")):
         os.makedirs(out_folder+"10")
-
+    
     data_loc_info = traversal(vidfolder)
     for loc,label in data_loc_info:
         
@@ -83,6 +83,9 @@ if __name__ == "__main__":
         # read rotation info from video metadata   
         rot = getmeta(loc) # this is finaly working
         print("Roation dat of image :",rot)
+        # making a seperate folder for each person
+        if not (os.path.exists(out_folder+label+"/"+str(os.path.basename(os.path.dirname(loc))))):
+            os.makedirs(out_folder+label+"/"+str(os.path.basename(os.path.dirname(loc))))
 
         for sec in range(s): 
             success,image = getFrame(sec,vidcap,seek=120)# seeked first  2 minutes
@@ -98,11 +101,14 @@ if __name__ == "__main__":
             gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(gray, 1.03, 5)
             
-            # looking for faces 
+            
+            # looking for faces , the biggest area for now 
+            area=0
             for (x,y,w,h) in faces:
                 cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
-                roi_gray = gray[y:y+h, x:x+w]
-                roi_color = image[y:y+h, x:x+w]
+                if area <= h*w:
+                    roi_gray = gray[y:y+h, x:x+w]
+                    roi_color = image[y:y+h, x:x+w]
                 foundfase=True
             
             if foundfase:
@@ -135,7 +141,7 @@ if __name__ == "__main__":
                     # sys.exit(0)
                 except TypeError:
                     print("found a none type")
-                    cv2.imshow("DID NOT DETECT FACE",cv2.resize(image,(244,244)))
+                    # cv2.imshow("DID NOT DETECT FACE",cv2.resize(image,(244,244)))
                     k = cv2.waitKey(30) & 0xff
                     if k == 27:
                         break
@@ -144,7 +150,7 @@ if __name__ == "__main__":
 
                 # cv2.imshow(str(loc),cv2.resize(image,(244,244)))
                 # cv2.imshow("FACE HARCASCADE",roi_color)
-                cv2.imshow("current frame",copy)
+                # cv2.imshow("current frame",cv2.resize(copy,(244,244)))
 
                 k = cv2.waitKey(30) & 0xff
                 if k == 27:
