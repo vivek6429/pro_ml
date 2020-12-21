@@ -36,6 +36,7 @@ if __name__ == "__main__":
         p0=p5=p10=max_p = 0 # i have no idea now why i used these var names
         # these are probablity for each labes
         ps=[] # list of probablities
+        maxpos = -1
         # TODO will clean this later
   
         succes,image = vidcap.read()
@@ -92,6 +93,7 @@ if __name__ == "__main__":
                     p5=p[0][1] 
                     p10=p[0][2] 
                     ps=[p0,p5,p10]
+                    maxpos = ps.index(max(ps)) 
                     print("sum = ",p0+p5 +p10)
                     print("Probablity label 0:",p0)
                     print("Probablity label 5:",p5)
@@ -115,20 +117,20 @@ if __name__ == "__main__":
                    fontScale, color, thickness, cv2.LINE_AA)
             image = cv2.putText(image,"p10 :"+str(p10), (50,150), font,  
                    fontScale, color, thickness, cv2.LINE_AA)
-            maxpos = ps.index(max(ps))  
+             
             
             if maxpos==0:
                 image = cv2.putText(image,"Alert", (300,300), font,  
-                   fontScale, color, thickness, cv2.LINE_AA)
+                   fontScale,  (255,0,0), thickness, cv2.LINE_AA)
             if maxpos==1:
                 image = cv2.putText(image,"Low vigilent", (300,300), font,  
-                   fontScale, color, thickness, cv2.LINE_AA)
+                   fontScale,  (0,255,255), thickness, cv2.LINE_AA)
             if maxpos==2:
                 image = cv2.putText(image,"Drowsy", (300,300), font,  
-                   fontScale, color, thickness, cv2.LINE_AA)
+                   fontScale,  (0,0,255),thickness, cv2.LINE_AA)
             if maxpos==-1:
                 image = cv2.putText(image,"No prediction", (300,300), font,  
-                   fontScale, color, thickness, cv2.LINE_AA)
+                   fontScale,  (255,255,255),thickness, cv2.LINE_AA)
 
 
             cv2.imshow("STREAM",image)
