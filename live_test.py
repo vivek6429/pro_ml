@@ -7,7 +7,7 @@ from mlxtend.image import extract_face_landmarks
 from customcvfunc import getFrame,resize2SquareKeepingAspectRation,eye_aspect_ratio
 from customcvfunc import mouth_aspect_ratio,circularity,boxpointsfinder
 from tensorflow import keras
-model = keras.models.load_model('model')
+model = keras.models.load_model('model2.h5')
 
 
 

@@ -17,4 +17,4 @@ __pycache__/image_data_process.cpython-38.pyc
 __pycache__/viewframe.cpython-38.pyc
 data/*
 extracted_data/*
-
+*.jpeg
