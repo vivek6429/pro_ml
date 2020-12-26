@@ -1,32 +1,38 @@
-#Driver drowsiness detection 
+# Driver drowsiness detection 
 
-#data set https://sites.google.com/view/utarldd/home
+## [Dataset](https://sites.google.com/view/utarldd/home) :sparkles:
 
-features focused on -- ear,mar,puc --- no 
-features l_eye r_eye ---> cnn model
+~~features focused on -- ear,mar,puc ~~
+features l_eye r_eye images ---> cnn model
 
-Haar cascade ---> tooo many issues on detecting, eyes while face detection is good
+
+### Tasks:
+- [x] Extract images from dataset
+    - [x] getframe function
+    - [x] video orentation
+- [x] data cleaning
+- [x] pickle the data
+- [x] train model
+- [x] live working model
+- [x] tinker with model hyper parameters
+- [ ] tryout more models
+- [ ] create a better gui
+- [ ] improve this readme
+
+Haar cascade ---> tooo many issues on detecting eyes,while face detection is good
 found out face landmarks does a good job
 
-changing approach --<> 
-    use haar cascade to detect  face on image = ok
+# Requirements:
+1. Dlib
+2. Tf
+3. [Exiftool](https://exiftool.org/) for acessing video metadata
+4. moviepy (used this during training to get vid length)
 
-    crop it                                   =ok
-
-    use face landmarks on it                  =<->
-
-
-use live_test.py for a live test
-
-The pickle files contains images of eyes....
-
-model tarining on cnn.ipynb
-
+# NOTES:
+use live_test.py for a live Demo
+The pickle files contains extracted eye data
+model training on cnn.ipynb
 trained model is the file called "model"
-
-
 dataextraction.py to extract the images from vids
-
 currently we are overfitting 
-
 need to try things like dataaugmentation also play with model hyperparametes 
