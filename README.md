@@ -2,7 +2,7 @@
 
 ## [Dataset](https://sites.google.com/view/utarldd/home) :sparkles:
 
-~~features focused on -- ear,mar,puc ~~
+<del>features focused on : EAR,MAR,PUC </del>
 features l_eye r_eye images ---> cnn model
 
 
